@@ -29,7 +29,22 @@ function renderProducts() {
   list.innerHTML = '';
   DB.products.forEach(p => {
     const item = document.createElement('li');
-    item.textContent = `${p.name} — ${p.qty} ${p.unit} — KSh ${p.price}`;
+    item.textContent = `${p.name} — ${p.qty} ${p.unit} — KSh ${p.price} `;
+
+    const button = document.createElement('button');
+    button.textContent = 'Sell 1';
+    button.onclick = function () {
+      sellOne(p.id);
+    };
+
+    item.appendChild(button);
     list.appendChild(item);
   });
+}
+function sellOne(id) {
+  const product = DB.products.find(p => p.id === id);
+    product.qty = product.qty - 1;
+    save();
+    renderProducts();
+  
 }

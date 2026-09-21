@@ -24,3 +24,12 @@ function seed() {
   DB.sales = [];
   save();
 }
+function renderProducts() {
+  const list = document.getElementById('product-list');
+  list.innerHTML = '';
+  DB.products.forEach(p => {
+    const item = document.createElement('li');
+    item.textContent = `${p.name} — ${p.qty} ${p.unit} — KSh ${p.price}`;
+    list.appendChild(item);
+  });
+}

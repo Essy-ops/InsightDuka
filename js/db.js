@@ -43,6 +43,10 @@ function renderProducts() {
 }
 function sellOne(id) {
   const product = DB.products.find(p => p.id === id);
+  if (product.qty <= 0) {
+    alert(`${product.name} is out of stock,`);
+    return;
+  }
     product.qty = product.qty - 1;
     save();
     renderProducts();

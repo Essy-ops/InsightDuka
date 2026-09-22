@@ -8,11 +8,14 @@
 <body>
     <h1>InsightDuka</h1> 
     <p id="today-total">Today's sales: Ksh 0</p>  
+    <p id="today-profit">Today's profit: Ksh 0</p>
     <ul id="product-list"></ul>
     <script src="js/db.js"></script>
     <script>
         load();
         renderProducts();
+        renderTodayTotal();
+        renderTodayProfit();
     </script>
 </body>
 </html>

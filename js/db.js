@@ -54,12 +54,15 @@ function sellOne(id) {
       id: 's' + DB.sales.length,
       productId: product.id,
       price: product.price,
+      cost: product.cost,
       timestamp: Date.now()
+      
     });
     
     save();
     renderProducts();
     renderTodayTotal();
+    renderTodayProfit();
   
 }
 
@@ -73,8 +76,23 @@ function todaysSalesTotal() {
   });
   return total;
 }
+function todaysProfitTotal() {
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const todaysSales = DB.sales.filter(sale => sale.timestamp >= todayStart);
+
+  let profit = 0;
+  todaysSales.forEach(sale => {
+    profit = profit + (sale.price - sale.cost);
+  });
+  return profit;
+}
 
 function renderTodayTotal() {
   const el = document.getElementById('today-total');
   el.textContent = `Today's sales: KSh ${todaysSalesTotal()}`;
+}
+function renderTodayProfit() {
+  const el = document.getElementById('today-profit');
+  el.textContent = `Today's profit: KSh ${todaysProfitTotal()}`;
 }

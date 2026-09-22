@@ -29,10 +29,18 @@ function renderProducts() {
   list.innerHTML = '';
   DB.products.forEach(p => {
     const item = document.createElement('li');
-    item.textContent = `${p.name} — ${p.qty} ${p.unit} — KSh ${p.price} `;
+
+   let text = `${p.name} — ${p.qty} ${p.unit} — KSh ${p.price} `;
+if (p.qty === 0) {
+  text = text + ' OUT OF STOCK ';
+} else if (p.qty <= 5) {
+  text = text + ' LOW STOCK ';
+}
+item.textContent = text;
 
     const button = document.createElement('button');
     button.textContent = 'Sell 1';
+    button.disabled = (p.qty === 0);
     button.onclick = function () {
       sellOne(p.id);
     };

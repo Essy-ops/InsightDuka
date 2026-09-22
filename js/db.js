@@ -59,5 +59,22 @@ function sellOne(id) {
     
     save();
     renderProducts();
+    renderTodayTotal();
   
+}
+
+function todaysSalesTotal() {
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const todaysSales = DB.sales.filter(sale => sale.timestamp >= todayStart);
+  let total = 0;
+  todaysSales.forEach(sale => {
+    total = total + sale.price;
+  });
+  return total;
+}
+
+function renderTodayTotal() {
+  const el = document.getElementById('today-total');
+  el.textContent = `Today's sales: KSh ${todaysSalesTotal()}`;
 }

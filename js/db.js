@@ -95,6 +95,17 @@ function todaysProfitTotal() {
   });
   return profit;
 }
+function averageDailySales(productId, days) {
+  const now = Date.now();
+  const windowStart = now - (days * 24 * 60 * 60 * 1000);
+
+  const salesInWindow = DB.sales.filter(sale =>
+    sale.productId === productId && sale.timestamp >= windowStart
+  );
+
+  let unitsSold = salesInWindow.length;
+  return unitsSold / days;
+}
 
 function renderTodayTotal() {
   const el = document.getElementById('today-total');

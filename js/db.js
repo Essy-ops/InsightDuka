@@ -106,6 +106,25 @@ function averageDailySales(productId, days) {
   let unitsSold = salesInWindow.length;
   return unitsSold / days;
 }
+function seedHistoricalSales(productId, daysBack, unitsPerDay) {
+  const product = DB.products.find(p => p.id === productId);
+
+  for (let i = 1; i <= daysBack; i++) {
+    const saleTime = Date.now() - (i * 24 * 60 * 60 * 1000);
+
+    for (let j = 0; j < unitsPerDay; j++) {
+      DB.sales.push({
+        id: 's' + DB.sales.length,
+        productId: productId,
+        price: product.price,
+        cost: product.cost,
+        timestamp: saleTime
+      });
+    }
+  }
+
+  save();
+}
 
 function renderTodayTotal() {
   const el = document.getElementById('today-total');

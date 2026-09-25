@@ -106,6 +106,10 @@ function averageDailySales(productId, days) {
   let unitsSold = salesInWindow.length;
   return unitsSold / days;
 }
+function reorderPoint(productId, leadDays, safetyStock) {
+  const avgDaily = averageDailySales(productId, 14);
+  return Math.ceil(avgDaily * leadDays + safetyStock);
+}
 function seedHistoricalSales(productId, daysBack, unitsPerDay) {
   const product = DB.products.find(p => p.id === productId);
 

@@ -17,24 +17,26 @@ function load() {
 }
 function seed() {
   DB.products = [
-    { id: 'p1', name: 'Unga wa Dola 2kg', unit: 'pkt', cost: 148, price: 175, qty: 26 },
-    { id: 'p2', name: 'Sukari 1kg',        unit: 'pkt', cost: 152, price: 180, qty: 18 },
-    { id: 'p3', name: 'Mafuta Elianto 1L', unit: 'btl', cost: 305, price: 360, qty: 9 }
+    { id: 'p1', name: 'Unga wa Dola 2kg', unit: 'pkt', cost: 148, price: 175, qty: 26, leadDays: 3, safetyStock: 5 },
+    { id: 'p2', name: 'Sukari 1kg',        unit: 'pkt', cost: 152, price: 180, qty: 18, leadDays: 3, safetyStock: 5 },
+    { id: 'p3', name: 'Mafuta Elianto 1L', unit: 'btl', cost: 305, price: 360, qty: 9, leadDays: 4, safetyStock: 3 }
   ];
   DB.sales = [];
   save();
 }
+
 function renderProducts() {
   const list = document.getElementById('product-list');
   list.innerHTML = '';
   DB.products.forEach(p => {
     const item = document.createElement('li');
+const rp = reorderPoint(p.id, p.leadDays, p.safetyStock);
 
-   let text = `${p.name} — ${p.qty} ${p.unit} — KSh ${p.price} `;
+let text = `${p.name} — ${p.qty} ${p.unit} — KSh ${p.price} `;
 if (p.qty === 0) {
   text = text + ' OUT OF STOCK ';
-} else if (p.qty <= 5) {
-  text = text + ' LOW STOCK ';
+} else if (p.qty <= rp) {
+  text = text + `LOW STOCK (reorder point: ${rp}) `;
 }
 item.textContent = text;
 

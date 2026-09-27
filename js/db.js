@@ -31,8 +31,9 @@ function renderProducts() {
   DB.products.forEach(p => {
     const item = document.createElement('li');
 const rp = reorderPoint(p.id, p.leadDays, p.safetyStock);
+const forecast = forecastNextDays(p.id, 7);
 
-let text = `${p.name} — ${p.qty} ${p.unit} — KSh ${p.price} `;
+let text = `${p.name} — ${p.qty} ${p.unit} — KSh ${p.price} - expected next 7 days: ${forecast} `;
 if (p.qty === 0) {
   text = text + ' OUT OF STOCK ';
 } else if (p.qty <= rp) {
@@ -115,6 +116,32 @@ function reorderPoint(productId, leadDays, safetyStock) {
 function forecastNextDays(productId, days) {
   const avgDaily = averageDailySales(productId, 14);
   return Math.round(avgDaily * days);
+}
+function unitsSoldToday(productId) {
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+  const todaysSales = DB.sales.filter(sale =>
+    sale.productId === productId && sale.timestamp >= todayStart
+  );
+
+  return todaysSales.length;
+}
+function checkAnomaly(productId) {
+  const today = unitsSoldToday(productId);
+  const average = averageDailySales(productId, 14);
+
+  if (average === 0) {
+    return null;
+  }
+
+  if (today >= average * 2) {
+    return 'spike';
+  }
+  if (today <= average * 0.5) {
+    return 'drop';
+  }
+  return null;
 }
 function seedHistoricalSales(productId, daysBack, unitsPerDay) {
   const product = DB.products.find(p => p.id === productId);

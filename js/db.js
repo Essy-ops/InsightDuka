@@ -112,6 +112,10 @@ function reorderPoint(productId, leadDays, safetyStock) {
   const avgDaily = averageDailySales(productId, 14);
   return Math.ceil(avgDaily * leadDays + safetyStock);
 }
+function forecastNextDays(productId, days) {
+  const avgDaily = averageDailySales(productId, 14);
+  return Math.round(avgDaily * days);
+}
 function seedHistoricalSales(productId, daysBack, unitsPerDay) {
   const product = DB.products.find(p => p.id === productId);
 

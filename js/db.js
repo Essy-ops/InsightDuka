@@ -45,6 +45,29 @@ if (anomaly === 'spike') {
 } else if (anomaly === 'drop') {
   text = text + ' SALES DROP ';
 }
+function productLabel(p) {
+  const velocity = averageDailySales(p.id, 14);
+  const margin = (p.price - p.cost) / p.price;
+
+  if (velocity === 0) {
+    return 'Dead stock';
+  }
+
+  let total = 0;
+  DB.products.forEach(product => {
+    total = total + averageDailySales(product.id, 14);
+  });
+  const shopAverage = total / DB.products.length;
+
+  if (velocity >= shopAverage && margin >= 0.15) {
+    return 'Star performer';
+  }
+  if (velocity >= shopAverage) {
+    return 'Steady seller';
+  }
+  return 'Slow mover';
+}
+text = text + `[${productLabel(p)}]`;
 item.textContent = text;
 
     const button = document.createElement('button');

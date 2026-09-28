@@ -39,6 +39,12 @@ if (p.qty === 0) {
 } else if (p.qty <= rp) {
   text = text + `LOW STOCK (reorder point: ${rp}) `;
 }
+const anomaly = checkAnomaly(p.id);
+if (anomaly === 'spike') {
+  text = text + ' SALES SPIKE ';
+} else if (anomaly === 'drop') {
+  text = text + ' SALES DROP ';
+}
 item.textContent = text;
 
     const button = document.createElement('button');

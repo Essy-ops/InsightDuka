@@ -9,6 +9,18 @@
     <h1>InsightDuka</h1> 
     <p id="today-total">Today's sales: Ksh 0</p>  
     <p id="today-profit">Today's profit: Ksh 0</p>
+    <h2> Add a product</h2>
+    <div>
+         <input type="text" id="new-name" placeholder="Product name">
+         <input type="text" id="new-unit" placeholder="Unit (e.g. pkt)">
+         <input type="number" id="new-cost" placeholder="Cost price">
+         <input type="number" id="new-price" placeholder="Selling price">
+         <input type="number" id="new-qty" placeholder="Starting quantity">
+         <input type="number" id="new-lead" placeholder="Supplier lead days">
+         <input type="number" id="new-safety" placeholder="Safety stock">
+         <button onclick="addProduct()">Add product</button>
+    </div>
+    
     <ul id="product-list"></ul>
     <script src="js/db.js"></script>
     <script>

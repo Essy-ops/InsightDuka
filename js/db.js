@@ -45,6 +45,20 @@ if (anomaly === 'spike') {
 } else if (anomaly === 'drop') {
   text = text + ' SALES DROP ';
 }
+text = text + `[${productLabel(p)}]`;
+item.textContent = text;
+
+    const button = document.createElement('button');
+    button.textContent = 'Sell 1';
+    button.disabled = (p.qty === 0);
+    button.onclick = function () {
+      sellOne(p.id);
+    };
+
+    item.appendChild(button);
+    list.appendChild(item);
+  });
+}
 function productLabel(p) {
   const velocity = averageDailySales(p.id, 14);
   const margin = (p.price - p.cost) / p.price;
@@ -67,19 +81,44 @@ function productLabel(p) {
   }
   return 'Slow mover';
 }
-text = text + `[${productLabel(p)}]`;
-item.textContent = text;
 
-    const button = document.createElement('button');
-    button.textContent = 'Sell 1';
-    button.disabled = (p.qty === 0);
-    button.onclick = function () {
-      sellOne(p.id);
-    };
 
-    item.appendChild(button);
-    list.appendChild(item);
-  });
+function addProduct() {
+  const name = document.getElementById('new-name').value;
+  const unit = document.getElementById('new-unit').value;
+  const cost = Number(document.getElementById('new-cost').value);
+  const price = Number(document.getElementById('new-price').value);
+  const qty = Number(document.getElementById('new-qty').value);
+  const leadDays = Number(document.getElementById('new-lead').value);
+  const safetyStock = Number(document.getElementById('new-safety').value);
+
+  if (name === '' || unit === '') {
+    alert('Please enter a name and unit.');
+    return;
+  }
+
+  const newProduct = {
+    id: 'p' + Date.now(),
+    name: name,
+    unit: unit,
+    cost: cost,
+    price: price,
+    qty: qty,
+    leadDays: leadDays,
+    safetyStock: safetyStock
+  };
+
+  DB.products.push(newProduct);
+  save();
+  renderProducts();
+
+  document.getElementById('new-name').value = '';
+  document.getElementById('new-unit').value = '';
+  document.getElementById('new-cost').value = '';
+  document.getElementById('new-price').value = '';
+  document.getElementById('new-qty').value = '';
+  document.getElementById('new-lead').value = '';
+  document.getElementById('new-safety').value = '';
 }
 function sellOne(id) {
   const product = DB.products.find(p => p.id === id);

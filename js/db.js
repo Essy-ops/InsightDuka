@@ -145,6 +145,7 @@ function sellOne(id) {
     renderProducts();
     renderTodayTotal();
     renderTodayProfit();
+    renderPaymentBreakdown();
   
 }
 function todaysSalesTotal() {
@@ -167,6 +168,18 @@ function todaysProfitTotal() {
     profit = profit + (sale.price - sale.cost);
   });
   return profit;
+}
+function todaysSalesByMethod(method) {
+
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const todaysSales = DB.sales.filter(sale => sale.timestamp >= todayStart && sale.method === method);
+
+  let total = 0;
+  todaysSales.forEach(sale => {
+    total = total + sale.price;
+  });
+  return total;
 }
 function averageDailySales(productId, days) {
   const now = Date.now();
@@ -240,4 +253,17 @@ function renderTodayTotal() {
 function renderTodayProfit() {
   const el = document.getElementById('today-profit');
   el.textContent = `Today's profit: KSh ${todaysProfitTotal()}`;
+}
+function renderPaymentBreakdown() {
+  const el = document.getElementById('payment-breakdown');
+  const methods = ['Cash', 'M-Pesa', 'Card', 'Credit'];
+
+  let html = '<ul>';
+  methods.forEach(method => {
+    const total = todaysSalesByMethod(method);
+    html = html + `<li>${method}: KSh ${total}</li>`;
+  });
+  html = html + '</ul>';
+
+  el.innerHTML = html;
 }

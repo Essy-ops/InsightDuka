@@ -20,7 +20,13 @@
          <input type="number" id="new-safety" placeholder="Safety stock">
          <button onclick="addProduct()">Add product</button>
     </div>
-    
+    <h2> Payment method</h2>
+    <select id="payment-method">
+        <option value="Cash">Cash</option>
+        <option value="M-Pesa">M-Pesa</option>
+        <option value="Card">Card</option>
+        <option value="Credit">Credit</option>
+    </select>
     <ul id="product-list"></ul>
     <script src="js/db.js"></script>
     <script>

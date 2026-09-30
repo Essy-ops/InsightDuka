@@ -129,11 +129,14 @@ function sellOne(id) {
   }
     product.qty = product.qty - 1;
 
+    const method = document.getElementById('payment-method').value;
+
     DB.sales.push({
       id: 's' + DB.sales.length,
       productId: product.id,
       price: product.price,
       cost: product.cost,
+      method: method,
       timestamp: Date.now()
       
     });
@@ -144,7 +147,6 @@ function sellOne(id) {
     renderTodayProfit();
   
 }
-
 function todaysSalesTotal() {
   const now = new Date();
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();

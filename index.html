@@ -4,31 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InsightDuka</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>InsightDuka</h1> 
-    <p id="today-total">Today's sales: Ksh 0</p>  
-    <p id="today-profit">Today's profit: Ksh 0</p>
-    <div id="payment-breakdown"></div>
-    <h2> Add a product</h2>
-    <div>
-         <input type="text" id="new-name" placeholder="Product name">
-         <input type="text" id="new-unit" placeholder="Unit (e.g. pkt)">
-         <input type="number" id="new-cost" placeholder="Cost price">
-         <input type="number" id="new-price" placeholder="Selling price">
-         <input type="number" id="new-qty" placeholder="Starting quantity">
-         <input type="number" id="new-lead" placeholder="Supplier lead days">
-         <input type="number" id="new-safety" placeholder="Safety stock">
-         <button onclick="addProduct()">Add product</button>
-    </div>
-    <h2> Payment method</h2>
-    <select id="payment-method">
-        <option value="Cash">Cash</option>
-        <option value="M-Pesa">M-Pesa</option>
-        <option value="Card">Card</option>
-        <option value="Credit">Credit</option>
-    </select>
-    <ul id="product-list"></ul>
+    <h1>InsightDuka</h1>
+
+    <section>
+      <h2>Today</h2>
+      <p id="today-total">Today's sales: Ksh 0</p>
+      <p id="today-profit">Today's profit: Ksh 0</p>
+      <div id="payment-breakdown"></div>
+    </section>
+
+    <section>
+      <h2>Add a product</h2>
+      <div>
+           <input type="text" id="new-name" placeholder="Product name">
+           <input type="text" id="new-unit" placeholder="Unit (e.g. pkt)">
+           <input type="number" id="new-cost" placeholder="Cost price">
+           <input type="number" id="new-price" placeholder="Selling price">
+           <input type="number" id="new-qty" placeholder="Starting quantity">
+           <input type="number" id="new-lead" placeholder="Supplier lead days">
+           <input type="number" id="new-safety" placeholder="Safety stock">
+           <button onclick="addProduct()">Add product</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Products</h2>
+      <p>Payment method:
+        <select id="payment-method">
+            <option value="Cash">Cash</option>
+            <option value="M-Pesa">M-Pesa</option>
+            <option value="Card">Card</option>
+            <option value="Credit">Credit</option>
+        </select>
+      </p>
+      <ul id="product-list"></ul>
+    </section>
+
     <script src="js/db.js"></script>
     <script>
         load();

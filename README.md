@@ -27,3 +27,7 @@ The app loads with three seed products already in stock. All data is stored in y
 - New products with no sales history are automatically labeled "Dead stock" until they build up real sales data, this is the cold-start problem: there's no history yet to judge them by.
 - All data lives in one browser's `localStorage`. It does not sync across devices, and clearing browser data will erase it.
 - There is no login or multi-user support yet; anyone with access to the browser can see and edit everything.
+
+## Analysis notebook
+
+`notebooks/reorder-point-analysis.ipynb` walks through the reorder point formula from first principles: realistic simulated sales data, why a fixed threshold fails, the actual formula compared against it, and honest limitations. The same formula runs live in `js/db.js`.

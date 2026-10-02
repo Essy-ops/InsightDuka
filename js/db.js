@@ -60,13 +60,20 @@ item.textContent = text;
     deleteButton.onclick = function () {
       deleteProduct(p.id);
     };
+    
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Edit';
+    editButton.onclick = function () {
+      editProduct(p.id);
+    };
 
-    item.appendChild(button);
-    item.appendChild(deleteButton);
-    list.appendChild(item);
-
+   item.appendChild(button);
+   item.appendChild(editButton);
+   item.appendChild(deleteButton);
+   list.appendChild(item);
   });
 }
+
 function productLabel(p) {
   const velocity = averageDailySales(p.id, 14);
   const margin = (p.price - p.cost) / p.price;
@@ -138,6 +145,20 @@ function deleteProduct(id) {
   }
 
   DB.products = DB.products.filter(p => p.id !== id);
+  save();
+  renderProducts();
+}
+
+function editProduct(id) {
+  const product = DB.products.find(p => p.id === id);
+
+  const newPrice = prompt(`New selling price for ${product.name}:`, product.price);
+
+  if (newPrice === null) {
+    return;
+  }
+
+  product.price = Number(newPrice);
   save();
   renderProducts();
 }

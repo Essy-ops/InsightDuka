@@ -55,8 +55,16 @@ item.textContent = text;
       sellOne(p.id);
     };
 
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.onclick = function () {
+      deleteProduct(p.id);
+    };
+
     item.appendChild(button);
+    item.appendChild(deleteButton);
     list.appendChild(item);
+
   });
 }
 function productLabel(p) {
@@ -120,6 +128,20 @@ function addProduct() {
   document.getElementById('new-lead').value = '';
   document.getElementById('new-safety').value = '';
 }
+
+function deleteProduct(id) {
+  const product = DB.products.find(p => p.id === id);
+  const confirmed = confirm(`Delete ${product.name}? This cannot be undone.`);
+
+  if (!confirmed) {
+    return;
+  }
+
+  DB.products = DB.products.filter(p => p.id !== id);
+  save();
+  renderProducts();
+}
+
 function sellOne(id) {
   const product = DB.products.find(p => p.id === id);
 

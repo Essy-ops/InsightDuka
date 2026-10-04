@@ -1,17 +1,77 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', Arial, sans-serif;
   max-width: 700px;
   margin: 20px auto;
   padding: 0 15px;
+  background: linear-gradient(135deg, #eaf2fb 0%, #dce8f7 100%);
+  color: #2c2c2c;
+}
+
+h1 {
+  color: #0d3b66;
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: -0.5px;
 }
 
 section {
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 15px;
-  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 14px rgba(13, 59, 102, 0.1);
 }
 
 h2 {
   margin-top: 0;
+  color: #0d3b66;
+  font-weight: 600;
+  border-bottom: 2px solid #cfe0f2;
+  padding-bottom: 10px;
+}
+
+button {
+  background-color: #1e6fb8;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 7px 16px;
+  cursor: pointer;
+  margin-left: 6px;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 600;
+  transition: transform 0.1s, background-color 0.2s;
+}
+
+button:hover {
+  background-color: #155185;
+  transform: scale(1.05);
+}
+
+button:disabled {
+  background-color: #bbb;
+  cursor: not-allowed;
+  transform: none;
+}
+
+li {
+  list-style: none;
+  background-color: #f7fafd;
+  border-left: 4px solid #1e6fb8;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+#sales-list li {
+  border-left-color: #999;
+  font-size: 14px;
+}
+
+input, select {
+  font-family: 'Poppins', Arial, sans-serif;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 6px 8px;
 }

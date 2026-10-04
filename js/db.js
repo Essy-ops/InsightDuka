@@ -205,6 +205,7 @@ function sellOne(id) {
     renderTodayTotal();
     renderTodayProfit();
     renderPaymentBreakdown();
+    renderSalesHistory();
   
 }
 function todaysSalesTotal() {
@@ -325,4 +326,21 @@ function renderPaymentBreakdown() {
   html = html + '</ul>';
 
   el.innerHTML = html;
+}
+function renderSalesHistory() {
+  const list = document.getElementById('sales-list');
+  list.innerHTML = '';
+
+  const recentSales = DB.sales.slice(-10).reverse();
+
+  recentSales.forEach(sale => {
+    const product = DB.products.find(p => p.id === sale.productId);
+    const productName = product ? product.name : 'Unknown product';
+
+    const item = document.createElement('li');
+    const time = new Date(sale.timestamp).toLocaleString();
+    item.textContent = `${time} — ${productName} — KSh ${sale.price} — ${sale.method}`;
+
+    list.appendChild(item);
+  });
 }

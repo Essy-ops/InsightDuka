@@ -5,6 +5,8 @@ let DB = {
   sales: []
 };
 
+let editingProductId = null;
+
 function save() {
   localStorage.setItem(KEY, JSON.stringify(DB));
 }
@@ -112,18 +114,31 @@ function addProduct() {
     return;
   }
 
-  const newProduct = {
-    id: 'p' + Date.now(),
-    name: name,
-    unit: unit,
-    cost: cost,
-    price: price,
-    qty: qty,
-    leadDays: leadDays,
-    safetyStock: safetyStock
-  };
+  if (editingProductId === null) {
+    const newProduct = {
+      id: 'p' + Date.now(),
+      name: name,
+      unit: unit,
+      cost: cost,
+      price: price,
+      qty: qty,
+      leadDays: leadDays,
+      safetyStock: safetyStock
+    };
+    DB.products.push(newProduct);
+  } else {
+    const product = DB.products.find(p => p.id === editingProductId);
+    product.name = name;
+    product.unit = unit;
+    product.cost = cost;
+    product.price = price;
+    product.qty = qty;
+    product.leadDays = leadDays;
+    product.safetyStock = safetyStock;
+    editingProductId = null;
+    document.getElementById('form-submit-button').textContent = 'Add product';
+  }
 
-  DB.products.push(newProduct);
   save();
   renderProducts();
 
@@ -152,15 +167,16 @@ function deleteProduct(id) {
 function editProduct(id) {
   const product = DB.products.find(p => p.id === id);
 
-  const newPrice = prompt(`New selling price for ${product.name}:`, product.price);
+  document.getElementById('new-name').value = product.name;
+  document.getElementById('new-unit').value = product.unit;
+  document.getElementById('new-cost').value = product.cost;
+  document.getElementById('new-price').value = product.price;
+  document.getElementById('new-qty').value = product.qty;
+  document.getElementById('new-lead').value = product.leadDays;
+  document.getElementById('new-safety').value = product.safetyStock;
 
-  if (newPrice === null) {
-    return;
-  }
-
-  product.price = Number(newPrice);
-  save();
-  renderProducts();
+  editingProductId = id;
+  document.getElementById('form-submit-button').textContent = 'Save changes';
 }
 
 function sellOne(id) {

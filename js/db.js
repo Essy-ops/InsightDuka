@@ -36,20 +36,41 @@ const rp = reorderPoint(p.id, p.leadDays, p.safetyStock);
 const forecast = forecastNextDays(p.id, 7);
 
 let text = `${p.name} — ${p.qty} ${p.unit} — KSh ${p.price} - expected next 7 days: ${forecast} `;
-if (p.qty === 0) {
-  text = text + ' OUT OF STOCK ';
-} else if (p.qty <= rp) {
-  text = text + `LOW STOCK (reorder point: ${rp}) `;
-}
-const anomaly = checkAnomaly(p.id);
-if (anomaly === 'spike') {
-  text = text + ' SALES SPIKE ';
-} else if (anomaly === 'drop') {
-  text = text + ' SALES DROP ';
-}
-text = text + `[${productLabel(p)}]`;
 item.textContent = text;
 
+if (p.qty === 0) {
+  const warning = document.createElement('span');
+  warning.textContent = ' OUT OF STOCK ';
+  warning.style.color = 'red';
+  warning.style.fontWeight = 'bold';
+  item.appendChild(warning);
+} else if (p.qty <= rp) {
+  const warning = document.createElement('span');
+  warning.textContent = `LOW STOCK (reorder point: ${rp}) `;
+  warning.style.color = 'orange';
+  warning.style.fontWeight = 'bold';
+  item.appendChild(warning);
+}
+
+const anomaly = checkAnomaly(p.id);
+if (anomaly === 'spike') {
+  const warning = document.createElement('span');
+  warning.textContent = ' SALES SPIKE ';
+  warning.style.color = 'green';
+  warning.style.fontWeight = 'bold';
+  item.appendChild(warning);
+} else if (anomaly === 'drop') {
+  const warning = document.createElement('span');
+  warning.textContent = ' SALES DROP ';
+  warning.style.color = 'red';
+  warning.style.fontWeight = 'bold';
+  item.appendChild(warning);
+}
+
+const labelSpan = document.createElement('span');
+labelSpan.textContent = ` [${productLabel(p)}]`;
+labelSpan.style.color = '#1e6fb8';
+item.appendChild(labelSpan);
     const button = document.createElement('button');
     button.textContent = 'Sell 1';
     button.disabled = (p.qty === 0);

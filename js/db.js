@@ -352,7 +352,18 @@ function renderSalesHistory() {
   const list = document.getElementById('sales-list');
   list.innerHTML = '';
 
-  const recentSales = DB.sales.slice(-10).reverse();
+  const filter = document.getElementById('history-filter').value;
+  const now = new Date();
+  let cutoff = 0;
+
+  if (filter === 'today') {
+    cutoff = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  } else if (filter === 'week') {
+    cutoff = Date.now() - (7 * 24 * 60 * 60 * 1000);
+  }
+
+  const filteredSales = DB.sales.filter(sale => sale.timestamp >= cutoff);
+  const recentSales = filteredSales.slice(-10).reverse();
 
   recentSales.forEach(sale => {
     const product = DB.products.find(p => p.id === sale.productId);
